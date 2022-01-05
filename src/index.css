@@ -1,0 +1,84 @@
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: 'Roboto';
+}
+
+h4 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.App {
+  background-color: #fafafa;
+  height: 100vh;
+  padding-top: 40px;
+}
+
+.wrapper {
+  width: 530px;
+  margin: 0 auto;
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+
+.item-text {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  line-height: 40px !important;
+}
+
+.header {
+  background-color: #1976d2 !important;
+  color: #fff !important;
+  padding: 15px;
+  margin-bottom: 10px !important;
+  border-radius: 0 !important;
+}
+
+.field {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 15px;
+}
+
+.field .checkbox {
+  position: relative;
+  top: -5px;
+}
+
+.field .MuiInput-root:before {
+  display: none !important;
+}
+
+.field button {
+  width: 35px;
+  height: 35px;
+  min-width: 10px;
+}
+
+.d-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.item {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.item-buttons {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 15px;
+}
+
+.check-buttons {
+  padding: 15px;
+}
+/*# sourceMappingURL=index.css.map */
