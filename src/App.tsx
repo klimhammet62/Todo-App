@@ -50,7 +50,6 @@ function reducer(state: TodoState, action: TodoActions): TodoState {
     switch (action.type) {
         case Types.ADD_TASK: {
             const last = state.items[state.items.length - 1];
-            console.log(action.item.text);
 
             const newItem = {
                 id: last.id + 1,
