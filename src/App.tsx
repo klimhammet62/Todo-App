@@ -50,7 +50,6 @@ function reducer(state: TodoState, action: TodoActions): TodoState {
     switch (action.type) {
         case Types.ADD_TASK: {
             const last = state.items[state.items.length - 1];
-            console.log(action.item.text);
 
             const newItem = {
                 id: last.id + 1,
@@ -62,12 +61,13 @@ function reducer(state: TodoState, action: TodoActions): TodoState {
             };
         }
         case Types.MARK_ALL: {
+            state.items.forEach((item) => (item.checked = true));
             return {
                 items: [...state.items],
             };
         }
         default: {
-            throw new Error("Action not recognized");
+            return state;
         }
     }
 }
@@ -89,7 +89,6 @@ const App: React.FC = () => {
             type: Types.MARK_ALL,
             item: { checked: true },
         });
-        state.items.forEach((item) => (item.checked = true));
         setChecked(true);
     }
     useEffect(() => {
