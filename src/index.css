@@ -24,8 +24,8 @@ h4 {
 
 .item-text {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   line-height: 40px !important;
 }
 
@@ -67,18 +67,39 @@ h4 {
 
 .item {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+  flex: 1;
 }
 
 .item-buttons {
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-left: 15px;
 }
 
 .check-buttons {
   padding: 15px;
 }
+
+.modal-window {
+  position: absolute;
+  display: flex;
+  background-color: rgb(207, 204, 204);
+  left: 0;
+  top: 0;
+  right: 1vh;
+  z-index: 99;
+  justify-content: space-around
+}
+
+.modal-h1 {
+  margin: 1vh;
+}
+
+.modal-button {
+  display: flex;
+  justify-content: space-around;
+}
+
 /*# sourceMappingURL=index.css.map */
