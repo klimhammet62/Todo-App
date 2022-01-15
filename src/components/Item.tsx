@@ -1,30 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { IconButton, Checkbox, ListItem, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Modal } from "./Modal";
 
 interface IProps {
     text: string;
     checked: boolean;
+    id: number;
+    deleteTask: (e:any) => void;
 }
 
-export const Item: React.FC<IProps> = ({ text, checked }) => {
-    useEffect(() => {}, [checked]);
+export const Item: React.FC<IProps> = ({ text, checked, id, deleteTask }) => {
+    const [modal, setModal] = useState(false);
+
+    const addModal = () => {
+        setModal(true);
+    };
+
     return (
         <ListItem>
             <div className="d-flex item">
-                {!!checked ? (
+                {checked ? (
                     <Checkbox
-                        checked={(checked = true)}
+                        checked={true}
                         className="checkbox"
                         checkedIcon={<CheckCircleIcon />}
                         icon={<RadioButtonUncheckedIcon />}
                     />
                 ) : (
                     <Checkbox
-                        checked={(checked = false)}
+                        checked={false}
                         className="checkbox"
                         icon={<RadioButtonUncheckedIcon />}
                         checkedIcon={<CheckCircleIcon />}
@@ -36,9 +44,19 @@ export const Item: React.FC<IProps> = ({ text, checked }) => {
                         <EditIcon style={{ fontSize: 20 }} />
                     </IconButton>
                     <IconButton>
-                        <DeleteOutlineIcon style={{ fontSize: 20 }} />
+                        <DeleteOutlineIcon
+                            onClick={addModal}
+                            style={{ fontSize: 20 }}
+                        />
                     </IconButton>
                 </div>
+                {modal && (
+                    <Modal
+                        modal={modal}
+                        setModal={setModal}
+                        deleteTask={deleteTask}
+                    />
+                )}
             </div>
         </ListItem>
     );

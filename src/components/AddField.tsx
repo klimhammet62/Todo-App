@@ -2,20 +2,21 @@ import { TextField, Button, Checkbox } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import React, { useState} from "react";
 
-interface IImports {
-    addTask: () => void;
-    inputValue: string;
-    setInputValue: (inputValue: string) => void;
-}
-export const AddField: React.FC<IImports> = ({
-    addTask,
-    inputValue,
-    setInputValue,
-}) => {
+export function AddField({ addTask }: any){
+    const [inputValue, setInputValue] = useState<string | undefined>("");
+    const [checked, setChecked] = useState<boolean | undefined>(false);
+    const onClickAdd = () => {
+        addTask(inputValue, checked);
+        setInputValue("");
+        setChecked(false);
+    };
     return (
         <div className="field">
             <Checkbox
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
                 className="checkbox"
                 checkedIcon={<CheckCircleIcon />}
                 icon={<RadioButtonUncheckedIcon />}
@@ -27,7 +28,7 @@ export const AddField: React.FC<IImports> = ({
                 variant="standard"
                 fullWidth
             />
-            <Button onClick={addTask}>
+            <Button onClick={onClickAdd}>
                 <AddIcon />
             </Button>
         </div>
