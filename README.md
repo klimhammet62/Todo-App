@@ -1,1 +1,1 @@
-# I did Toto-App with ReactJS + TS + useReducer
+# I did Todo-App with ReactJS + TS + useReducer
