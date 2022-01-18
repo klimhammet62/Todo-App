@@ -10,10 +10,10 @@ interface IProps {
     text: string;
     checked: boolean;
     id: number;
-    deleteTask: (e:any) => void;
+    onYes: (e:any) => void;
 }
 
-export const Item: React.FC<IProps> = ({ text, checked, id, deleteTask }) => {
+export const Item: React.FC<IProps> = ({ text, checked, id, onYes }) => {
     const [modal, setModal] = useState(false);
 
     const addModal = () => {
@@ -54,7 +54,8 @@ export const Item: React.FC<IProps> = ({ text, checked, id, deleteTask }) => {
                     <Modal
                         modal={modal}
                         setModal={setModal}
-                        deleteTask={deleteTask}
+                        onYes={onYes}
+                        id={id}
                     />
                 )}
             </div>

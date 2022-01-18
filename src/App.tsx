@@ -55,24 +55,28 @@ const initialState: TodoState = {
 
 function reducer(state: TodoState, action: TodoActions): TodoState {
     switch (action.type) {
+
         case Types.ADD_TASK: {
             const last = state.items[state.items.length - 1];
             const newItem = {
-                id: last.id + 1,
+                id: last ? last.id + 1 : 1,
                 text: action.payload.text,
                 checked: action.payload.checked,
                 modal: action.payload.modal,
             };
+            
             return {
                 items: [...state.items, newItem],
             };
         }
-        case Types.DELETE_TASK: {
-            state.items.filter((item, index) => item !== undefined);
+        case Types.DELETE_TASK: {   
+            const filter: IState[] = state.items.filter(
+                (item) => item.id !== action.payload.id
+            );
             return {
-                items: [...state.items],
+                items: [...filter],
             };
-        }
+            }
         case Types.ADD_MARK_ALL: {
             state.items.forEach((item) => (item.checked = true));
             return {
@@ -93,6 +97,7 @@ function reducer(state: TodoState, action: TodoActions): TodoState {
 
 const App: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
+
     function addTask(text: string, checked: boolean, modal: boolean) {
         dispatch({
             type: Types.ADD_TASK,
@@ -104,12 +109,13 @@ const App: React.FC = () => {
             },
         });
     }
-    function deleteTask() {
+
+    function onYes(id: number) {
         dispatch({
             type: Types.DELETE_TASK,
             payload: {
-                id: 2
-            }
+                id,
+            },
         });
     }
     function handleMark() {
@@ -143,7 +149,7 @@ const App: React.FC = () => {
                     {state &&
                         state.items.map((item) => (
                             <Item
-                                deleteTask={deleteTask}
+                                onYes={onYes}
                                 id={item.id}
                                 key={item.id}
                                 text={item.text}
