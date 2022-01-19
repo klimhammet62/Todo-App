@@ -12,10 +12,11 @@ interface IState {
 
 enum Types {
     ADD_TASK = "ADD_TASK",
+    DELETE_TASK = "DELETE_TASK",
+    TOGGLE_CHECKBOX = "TOGGLE_CHECKBOX",
     ADD_MARK_ALL = "ADD_MARK_ALL",
     MARK_CLEAR_ALL = "MARK_CLEAR_ALL",
     MARK_CLEAR = "MARK_CLEAR",
-    DELETE_TASK = "DELETE_TASK",
 }
 type ActionTypes = {
     [Types.ADD_TASK]: {
@@ -27,8 +28,11 @@ type ActionTypes = {
     [Types.DELETE_TASK]: {
         id: number;
     };
+    [Types.TOGGLE_CHECKBOX]: {
+        id: number;
+    };
     [Types.ADD_MARK_ALL]: {
-        checked: boolean;
+        toggleAllMarks: boolean;
     };
     [Types.MARK_CLEAR]: {
         checked: boolean;
@@ -55,7 +59,6 @@ const initialState: TodoState = {
 
 function reducer(state: TodoState, action: TodoActions): TodoState {
     switch (action.type) {
-
         case Types.ADD_TASK: {
             const last = state.items[state.items.length - 1];
             const newItem = {
@@ -64,30 +67,40 @@ function reducer(state: TodoState, action: TodoActions): TodoState {
                 checked: action.payload.checked,
                 modal: action.payload.modal,
             };
-            
+
             return {
                 items: [...state.items, newItem],
             };
         }
-        case Types.DELETE_TASK: {   
+        case Types.DELETE_TASK: {
             const filter: IState[] = state.items.filter(
                 (item) => item.id !== action.payload.id
             );
             return {
                 items: [...filter],
             };
-            }
+        }
+        case Types.TOGGLE_CHECKBOX: {
+            const toggleAlone: IState[] = state.items.map((item) => {
+                if (item.id === action.payload.id) {
+                    return { ...item, checked: !item.checked };
+                }
+                return item;
+            });
+            return { items: [...toggleAlone] };
+        }
         case Types.ADD_MARK_ALL: {
-            state.items.forEach((item) => (item.checked = true));
-            return {
-                items: [...state.items],
-            };
+            const toggleAll: IState[] = state.items.map((item) => {
+                if (!action.payload) {
+                    return { ...item, checked: item.checked === true };
+                } else {
+                    return { ...item, checked: item.checked === false };
+                }
+            });
+            return { items: [...toggleAll] };
         }
         case Types.MARK_CLEAR_ALL: {
-            state.items.forEach((item) => (item.checked = false));
-            return {
-                items: [...state.items],
-            };
+            return [];
         }
         default: {
             return state;
@@ -97,6 +110,8 @@ function reducer(state: TodoState, action: TodoActions): TodoState {
 
 const App: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [toggleAllMarks, setToggleAllMarks] = useState(false);
+    console.log(state.items[0].checked);
 
     function addTask(text: string, checked: boolean, modal: boolean) {
         dispatch({
@@ -109,7 +124,14 @@ const App: React.FC = () => {
             },
         });
     }
-
+    function toggleCheckbox(id: number) {
+        dispatch({
+            type: Types.TOGGLE_CHECKBOX,
+            payload: {
+                id,
+            },
+        });
+    }
     function onYes(id: number) {
         dispatch({
             type: Types.DELETE_TASK,
@@ -118,11 +140,12 @@ const App: React.FC = () => {
             },
         });
     }
-    function handleMark() {
+    function toggleMark() {
         dispatch({
             type: Types.ADD_MARK_ALL,
-            payload: { checked: true },
+            payload: { toggleAllMarks: true || false },
         });
+        setToggleAllMarks(!toggleAllMarks);
     }
 
     function handleMarkClear() {
@@ -154,12 +177,15 @@ const App: React.FC = () => {
                                 key={item.id}
                                 text={item.text}
                                 checked={item.checked}
+                                toggleCheckbox={() => toggleCheckbox(item.id)}
                             />
                         ))}
                 </List>
                 <Divider />
                 <div className="check-buttons">
-                    <Button onClick={handleMark}>Отметить всё</Button>
+                    <Button onClick={() => toggleMark()}>
+                        {!toggleAllMarks ? "Отметить всё" : "Снять отметки"}
+                    </Button>
                     <Button onClick={handleMarkClear}>Очистить</Button>
                 </div>
             </Paper>

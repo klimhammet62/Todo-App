@@ -7,6 +7,7 @@ import React, { useState} from "react";
 export function AddField({ addTask }: any){
     const [inputValue, setInputValue] = useState<string | undefined>("");
     const [checked, setChecked] = useState<boolean | undefined>(false);
+    
     const onClickAdd = () => {
         addTask(inputValue, checked);
         setInputValue("");
