@@ -1,12 +1,12 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-export const Modal = ({ modal, setModal, deleteTask }: any) => {
+export const Modal = ({ modal, setModal, onYes, id }: any) => {
     const onClickCancel = () => {
         setModal(false);
     };
-    const onClickDelete = () => {
-        deleteTask();
+    const onClickDelete = (id: number) => {
+        onYes(id);
         setModal(false);
     };
     return (
@@ -16,7 +16,7 @@ export const Modal = ({ modal, setModal, deleteTask }: any) => {
                 <div className="modal-button">
                     <Button
                         size="small"
-                        onClick={onClickDelete}
+                        onClick={() => onClickDelete(id)}
                         variant="outlined"
                         color="error"
                     >

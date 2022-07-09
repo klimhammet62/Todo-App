@@ -10,34 +10,37 @@ interface IProps {
     text: string;
     checked: boolean;
     id: number;
-    deleteTask: (e:any) => void;
+    onYes: (e: any) => void;
+    toggleCheckbox: (id: number) => void;
 }
 
-export const Item: React.FC<IProps> = ({ text, checked, id, deleteTask }) => {
+export const Item: React.FC<IProps> = ({
+    text,
+    checked,
+    id,
+    onYes,
+    toggleCheckbox,
+}) => {
     const [modal, setModal] = useState(false);
 
     const addModal = () => {
         setModal(true);
     };
+    const onCheckboxClick = () => {
+        toggleCheckbox(id);
+    };
 
     return (
         <ListItem>
             <div className="d-flex item">
-                {checked ? (
-                    <Checkbox
-                        checked={true}
-                        className="checkbox"
-                        checkedIcon={<CheckCircleIcon />}
-                        icon={<RadioButtonUncheckedIcon />}
-                    />
-                ) : (
-                    <Checkbox
-                        checked={false}
-                        className="checkbox"
-                        icon={<RadioButtonUncheckedIcon />}
-                        checkedIcon={<CheckCircleIcon />}
-                    />
-                )}
+                <Checkbox
+                    checked={checked}
+                    onChange={onCheckboxClick}
+                    className="checkbox"
+                    checkedIcon={<CheckCircleIcon />}
+                    icon={<RadioButtonUncheckedIcon />}
+                />
+
                 <Typography className="item-text">{text}</Typography>
                 <div className="item-buttons d-flex">
                     <IconButton>
@@ -54,7 +57,8 @@ export const Item: React.FC<IProps> = ({ text, checked, id, deleteTask }) => {
                     <Modal
                         modal={modal}
                         setModal={setModal}
-                        deleteTask={deleteTask}
+                        onYes={onYes}
+                        id={id}
                     />
                 )}
             </div>
